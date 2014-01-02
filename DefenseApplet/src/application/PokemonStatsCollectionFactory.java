@@ -2,15 +2,12 @@ package application;
 
 import java.util.Set;
 
-import application.test.IPokemonStatsCollectionFactory;
-import application.test.PokemonStats;
-
 public class PokemonStatsCollectionFactory implements
 		IPokemonStatsCollectionFactory {
 
 	@Override
 	public Set<PokemonStats> makeStatsCollection(
-			Set<EVDistribution> initialCollection) {
+			Set<EVDistribution> initialCollection, int hp, int def, int spDef) {
 		// TODO Auto-generated method stub
 		return null;
 	}

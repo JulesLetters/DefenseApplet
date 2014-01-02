@@ -2,9 +2,6 @@ package application;
 
 import java.util.Set;
 
-import application.test.IPokemonStatsCollectionFactory;
-import application.test.PokemonStats;
-
 public class DistributionFinder implements IDistributionFinder {
 
 	private IEVDistributionFactory evDistributionFactory;
@@ -20,10 +17,11 @@ public class DistributionFinder implements IDistributionFinder {
 		this.pokemonStatsCollectionFactory = pokemonStatsCollectionFactory;
 	}
 
-	public Set<PokemonStats> calculate() {
+	@Override
+	public Set<PokemonStats> calculate(int hp, int def, int spDef) {
 		Set<EVDistribution> initialCollection = evDistributionFactory
 				.getInitialCollection();
-		return pokemonStatsCollectionFactory
-				.makeStatsCollection(initialCollection);
+		return pokemonStatsCollectionFactory.makeStatsCollection(
+				initialCollection, hp, def, spDef);
 	}
 }

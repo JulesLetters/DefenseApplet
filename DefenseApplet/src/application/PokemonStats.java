@@ -1,4 +1,4 @@
-package application.test;
+package application;
 
 public class PokemonStats {
 
