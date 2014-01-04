@@ -18,6 +18,8 @@ public class DistributionFinderTest {
 	private IEVDistributionFactory evDistributionFactory;
 	@Mock
 	private IPokemonStatsCollectionFactory pokemonStatsCollectionFactory;
+	@Mock
+	private IBaseStats baseStats;
 
 	private DistributionFinder distributionFinder;
 
@@ -30,7 +32,7 @@ public class DistributionFinderTest {
 
 	@Test
 	public void testDistributionFinderGetsInitialDistributionFromFactory() {
-		distributionFinder.calculate(0, 1, 2);
+		distributionFinder.calculate(baseStats);
 
 		verify(evDistributionFactory).getInitialCollection();
 	}
@@ -41,10 +43,10 @@ public class DistributionFinderTest {
 		when(evDistributionFactory.getInitialCollection()).thenReturn(
 				initialCollection);
 
-		distributionFinder.calculate(3, 4, 5);
+		distributionFinder.calculate(baseStats);
 
 		verify(pokemonStatsCollectionFactory).makeStatsCollection(
-				initialCollection, 3, 4, 5);
+				initialCollection, baseStats);
 	}
 
 	@Test
@@ -56,10 +58,10 @@ public class DistributionFinderTest {
 		pokemonStatsSet.add(new PokemonStats());
 		when(
 				pokemonStatsCollectionFactory.makeStatsCollection(
-						initialCollection, 6, 7, 8))
-				.thenReturn(pokemonStatsSet);
+						initialCollection, baseStats)).thenReturn(
+				pokemonStatsSet);
 
-		Set<PokemonStats> actualSet = distributionFinder.calculate(6, 7, 8);
+		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
 
 		assertSame(pokemonStatsSet, actualSet);
 	}

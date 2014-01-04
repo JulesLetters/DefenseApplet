@@ -7,7 +7,7 @@ public class PokemonStatsCollectionFactory implements
 
 	@Override
 	public Set<PokemonStats> makeStatsCollection(
-			Set<EVDistribution> initialCollection, int hp, int def, int spDef) {
+			Set<EVDistribution> initialCollection, IBaseStats baseStats) {
 		// TODO Auto-generated method stub
 		return null;
 	}

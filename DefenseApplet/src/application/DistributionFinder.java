@@ -18,10 +18,10 @@ public class DistributionFinder implements IDistributionFinder {
 	}
 
 	@Override
-	public Set<PokemonStats> calculate(int hp, int def, int spDef) {
+	public Set<PokemonStats> calculate(IBaseStats baseStats) {
 		Set<EVDistribution> initialCollection = evDistributionFactory
 				.getInitialCollection();
 		return pokemonStatsCollectionFactory.makeStatsCollection(
-				initialCollection, hp, def, spDef);
+				initialCollection, baseStats);
 	}
 }
