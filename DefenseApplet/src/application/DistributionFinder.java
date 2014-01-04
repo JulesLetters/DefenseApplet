@@ -1,5 +1,6 @@
 package application;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class DistributionFinder implements IDistributionFinder {
@@ -21,7 +22,8 @@ public class DistributionFinder implements IDistributionFinder {
 	public Set<PokemonStats> calculate(IBaseStats baseStats) {
 		Set<EVDistribution> initialCollection = evDistributionFactory
 				.getInitialCollection();
-		return pokemonStatsCollectionFactory.makeStatsCollection(
-				initialCollection, baseStats);
+		return new HashSet<PokemonStats>(
+				pokemonStatsCollectionFactory.makeStatsCollection(
+						initialCollection, baseStats));
 	}
 }

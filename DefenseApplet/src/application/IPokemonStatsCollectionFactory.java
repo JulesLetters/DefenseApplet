@@ -1,9 +1,9 @@
 package application;
 
-import java.util.Set;
+import java.util.Collection;
 
 public interface IPokemonStatsCollectionFactory {
 
-	Set<PokemonStats> makeStatsCollection(
-			Set<EVDistribution> initialCollection, IBaseStats baseStats);
+	Collection<PokemonStats> makeStatsCollection(
+			Collection<EVDistribution> evDistributionCollection, IBaseStats baseStats);
 }

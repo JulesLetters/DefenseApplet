@@ -1,9 +1,13 @@
 package application;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,15 +58,34 @@ public class DistributionFinderTest {
 		Set<EVDistribution> initialCollection = new HashSet<>();
 		when(evDistributionFactory.getInitialCollection()).thenReturn(
 				initialCollection);
-		Set<PokemonStats> pokemonStatsSet = new HashSet<>();
-		pokemonStatsSet.add(new PokemonStats());
+		Collection<PokemonStats> pokemonStatsCollection = new HashSet<>();
+		pokemonStatsCollection.add(mock(PokemonStats.class));
 		when(
 				pokemonStatsCollectionFactory.makeStatsCollection(
 						initialCollection, baseStats)).thenReturn(
-				pokemonStatsSet);
+				pokemonStatsCollection);
 
 		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
 
-		assertSame(pokemonStatsSet, actualSet);
+		assertEquals(pokemonStatsCollection, actualSet);
+	}
+
+	@Test
+	public void testDistributionReturnsNoDuplicatePokemonStats() {
+		Set<EVDistribution> initialCollection = new HashSet<>();
+		when(evDistributionFactory.getInitialCollection()).thenReturn(
+				initialCollection);
+		PokemonStats pokemonStats = mock(PokemonStats.class);
+		Collection<PokemonStats> pokemonStatsCollection = Arrays.asList(
+				pokemonStats, pokemonStats);
+		when(
+				pokemonStatsCollectionFactory.makeStatsCollection(
+						initialCollection, baseStats)).thenReturn(
+				pokemonStatsCollection);
+
+		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
+
+		Set<PokemonStats> expectedSet = Collections.singleton(pokemonStats);
+		assertEquals(expectedSet, actualSet);
 	}
 }
