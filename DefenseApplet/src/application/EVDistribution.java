@@ -2,19 +2,26 @@ package application;
 
 public class EVDistribution {
 
+	private int hp;
+	private int def;
+	private int spDef;
+
+	public EVDistribution(int hp, int def, int spDef) {
+		this.hp = hp;
+		this.def = def;
+		this.spDef = spDef;
+	}
+
 	public int getHP() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hp;
 	}
 
 	public int getDef() {
-		// TODO Auto-generated method stub
-		return 0;
+		return def;
 	}
 
 	public int getSpDef() {
-		// TODO Auto-generated method stub
-		return 0;
+		return spDef;
 	}
 
 }
