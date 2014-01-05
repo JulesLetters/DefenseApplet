@@ -11,27 +11,15 @@ public class BaseStats implements IBaseStats {
 		this.spDef = spDef;
 	}
 
-	public int getHp() {
+	public int getHP() {
 		return hp;
-	}
-
-	public void setHp(int hp) {
-		this.hp = hp;
 	}
 
 	public int getDef() {
 		return def;
 	}
 
-	public void setDef(int def) {
-		this.def = def;
-	}
-
 	public int getSpDef() {
 		return spDef;
-	}
-
-	public void setSpDef(int spDef) {
-		this.spDef = spDef;
 	}
 }
