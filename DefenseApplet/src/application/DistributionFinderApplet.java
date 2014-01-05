@@ -55,6 +55,8 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats);
 
 		statsTableModel.setPokemonStats(calculate);
+
+		table.repaint();
 	}
 
 }

@@ -45,7 +45,7 @@ public class PokemonDefensiveStatsTableModel extends AbstractTableModel
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
-		return data[arg1][arg0];
+		return data[arg0][arg1];
 	}
 
 	public void setPokemonStats(Collection<PokemonStats> statsTableModel) {

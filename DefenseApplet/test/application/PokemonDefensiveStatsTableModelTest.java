@@ -32,8 +32,8 @@ public class PokemonDefensiveStatsTableModelTest {
 	@Test
 	public void testColumnNames() {
 		assertEquals(TABLE_COLUMNS, tableModel.getColumnCount());
-		for (int i = 0; i < TABLE_COLUMNS; ++i) {
-			assertEquals(columnNames[i], tableModel.getColumnName(i));
+		for (int c = 0; c < TABLE_COLUMNS; ++c) {
+			assertEquals(columnNames[c], tableModel.getColumnName(c));
 		}
 	}
 
@@ -66,8 +66,8 @@ public class PokemonDefensiveStatsTableModelTest {
 
 		tableModel.setPokemonStats(statsCollection);
 
-		for (int i = 0; i < TABLE_COLUMNS; ++i) {
-			assertEquals(row[i], tableModel.getValueAt(i, 0));
+		for (int c = 0; c < TABLE_COLUMNS; ++c) {
+			assertEquals(row[c], tableModel.getValueAt(0, c));
 		}
 	}
 
@@ -89,8 +89,8 @@ public class PokemonDefensiveStatsTableModelTest {
 
 		Object[][] grid = { row1, row2, row3 };
 		for (int r = 0; r < 3; ++r) {
-			for (int i = 0; i < TABLE_COLUMNS; ++i) {
-				assertEquals(grid[r][i], tableModel.getValueAt(i, r));
+			for (int c = 0; c < TABLE_COLUMNS; ++c) {
+				assertEquals(grid[r][c], tableModel.getValueAt(r, c));
 			}
 		}
 	}
