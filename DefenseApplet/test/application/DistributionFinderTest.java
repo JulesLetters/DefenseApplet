@@ -24,6 +24,8 @@ public class DistributionFinderTest {
 	private IPokemonStatsCollectionFactory pokemonStatsCollectionFactory;
 	@Mock
 	private IBaseStats baseStats;
+	@Mock
+	private IHarmAlgorithmFilter harmAlgFilter;
 
 	private DistributionFinder distributionFinder;
 
@@ -31,7 +33,7 @@ public class DistributionFinderTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		distributionFinder = new DistributionFinder(evDistributionFactory,
-				pokemonStatsCollectionFactory);
+				pokemonStatsCollectionFactory, harmAlgFilter);
 	}
 
 	@Test
@@ -64,6 +66,8 @@ public class DistributionFinderTest {
 				pokemonStatsCollectionFactory.makeStatsCollection(
 						initialCollection, baseStats)).thenReturn(
 				pokemonStatsCollection);
+		when(harmAlgFilter.filter(pokemonStatsCollection)).thenReturn(
+				pokemonStatsCollection);
 
 		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
 
@@ -83,9 +87,36 @@ public class DistributionFinderTest {
 						initialCollection, baseStats)).thenReturn(
 				pokemonStatsCollection);
 
+		when(harmAlgFilter.filter(pokemonStatsCollection)).thenReturn(
+				pokemonStatsCollection);
+
 		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
 
 		Set<PokemonStats> expectedSet = Collections.singleton(pokemonStats);
 		assertEquals(expectedSet, actualSet);
+	}
+
+	@Test
+	public void testDistributionReturnsFilteredSetOfPokemonStats() {
+		Set<EVDistribution> evDistributions = new HashSet<>();
+		when(evDistributionFactory.getInitialCollection()).thenReturn(
+				evDistributions);
+		PokemonStats pokemonStats = mock(PokemonStats.class);
+		Collection<PokemonStats> pokemonStatsCollection = Arrays.asList(
+				pokemonStats, pokemonStats);
+		when(
+				pokemonStatsCollectionFactory.makeStatsCollection(
+						evDistributions, baseStats)).thenReturn(
+				pokemonStatsCollection);
+
+		Collection<PokemonStats> filteredStatsCollection = Collections
+				.singleton(mock(PokemonStats.class));
+		when(harmAlgFilter.filter(pokemonStatsCollection)).thenReturn(
+				filteredStatsCollection);
+
+		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
+
+		assertEquals(filteredStatsCollection, actualSet);
+
 	}
 }

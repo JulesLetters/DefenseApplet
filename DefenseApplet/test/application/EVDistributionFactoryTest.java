@@ -1,5 +1,7 @@
 package application;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Set;
 
 import org.junit.Before;
@@ -19,13 +21,16 @@ public class EVDistributionFactoryTest {
 		Set<EVDistribution> initialCollection = evDistributionFactory
 				.getInitialCollection();
 
-		for (int h = 0; h < 4; h += 4) {
-			for (int d = 0; d < 4; d += 4) {
-				for (int s = 0; s < 4; s += 4) {
+		int counter = 0;
+		for (int h = 0; h <= 252; h += 4) {
+			for (int d = 0; d <= 252; d += 4) {
+				for (int s = 0; s <= 252; s += 4) {
 					initialCollection.contains(new EVDistribution(h, d, s));
+					++counter;
 				}
 			}
 		}
+		assertEquals(counter, initialCollection.size());
 	}
 
 }
