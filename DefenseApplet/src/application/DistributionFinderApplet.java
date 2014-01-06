@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ScrollPaneConstants;
 
 public class DistributionFinderApplet extends JApplet implements ActionListener {
 
@@ -28,8 +29,8 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 	private PokemonDefensiveStatsTableRowBuilder rowBuilder = new PokemonDefensiveStatsTableRowBuilder();
 	private PokemonDefensiveStatsTableModel statsTableModel = new PokemonDefensiveStatsTableModel(
 			rowBuilder);
-	JTable table = new JTable(statsTableModel);
-	JScrollPane scrollPane = new JScrollPane(table);
+	private JTable table = new JTable(statsTableModel);
+	private JScrollPane scrollPane = new JScrollPane(table);
 
 	@Override
 	public void init() {
@@ -45,7 +46,10 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 		calculateButton.addActionListener(this);
 		add(calculateButton);
 
-		add(table);
+		table.setFillsViewportHeight(true);
+		scrollPane
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		add(scrollPane);
 	}
 
 	@Override
