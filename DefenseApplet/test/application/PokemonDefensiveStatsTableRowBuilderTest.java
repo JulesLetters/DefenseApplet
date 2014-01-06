@@ -38,4 +38,16 @@ public class PokemonDefensiveStatsTableRowBuilderTest {
 		}
 	}
 
+	@Test
+	public void testBuildRowReturnsNatureIntoObjectArray() {
+		EVDistribution evDistro = mock(EVDistribution.class);
+		PokemonStats pokemonStats = mock(PokemonStats.class);
+		Nature nature = mock(Nature.class);
+		when(pokemonStats.getDistribution()).thenReturn(evDistro);
+		when(evDistro.getNature()).thenReturn(nature);
+
+		Object[] actualArray = rowBuilder.buildRow(pokemonStats);
+
+		assertEquals(nature, actualArray[3]);
+	}
 }

@@ -19,8 +19,6 @@ public class PokemonDefensiveStatsTableModelTest {
 	@Mock
 	private PokemonDefensiveStatsTableRowBuilder rowBuilder;
 
-	private static final int TABLE_COLUMNS = 3;
-	private String[] columnNames = { "EV:HP", "EV:Def", "EV:SpDef" };
 	private PokemonDefensiveStatsTableModel tableModel;
 
 	@Before
@@ -30,10 +28,14 @@ public class PokemonDefensiveStatsTableModelTest {
 	}
 
 	@Test
-	public void testColumnNames() {
-		assertEquals(TABLE_COLUMNS, tableModel.getColumnCount());
-		for (int c = 0; c < TABLE_COLUMNS; ++c) {
-			assertEquals(columnNames[c], tableModel.getColumnName(c));
+	public void testColumnNamesTakenFromRowBuilder() {
+		String[] expectedColumnNames = { "abc", "123", "xyz" };
+		when(rowBuilder.getColumnName(0)).thenReturn(expectedColumnNames[0]);
+		when(rowBuilder.getColumnName(1)).thenReturn(expectedColumnNames[1]);
+		when(rowBuilder.getColumnName(2)).thenReturn(expectedColumnNames[2]);
+
+		for (int c = 0; c < 3; ++c) {
+			assertEquals(expectedColumnNames[c], tableModel.getColumnName(c));
 		}
 	}
 
@@ -61,18 +63,20 @@ public class PokemonDefensiveStatsTableModelTest {
 
 		Object[] row = { 1, 2, 3 };
 		when(rowBuilder.buildRow(pokemonStats)).thenReturn(row);
+		when(rowBuilder.getColumnCount()).thenReturn(3);
 
 		statsCollection.add(pokemonStats);
 
 		tableModel.setPokemonStats(statsCollection);
 
-		for (int c = 0; c < TABLE_COLUMNS; ++c) {
+		for (int c = 0; c < 3; ++c) {
 			assertEquals(row[c], tableModel.getValueAt(0, c));
 		}
 	}
 
 	@Test
 	public void testMultipleRowsAreBuiltFromPokemonStats() {
+		int columns = 3;
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
 		PokemonStats pokemonStats3 = mock(PokemonStats.class);
@@ -82,17 +86,42 @@ public class PokemonDefensiveStatsTableModelTest {
 		when(rowBuilder.buildRow(pokemonStats1)).thenReturn(row1);
 		when(rowBuilder.buildRow(pokemonStats2)).thenReturn(row2);
 		when(rowBuilder.buildRow(pokemonStats3)).thenReturn(row3);
+		when(rowBuilder.getColumnCount()).thenReturn(3);
 		List<PokemonStats> statsCollection = Arrays.asList(pokemonStats1,
 				pokemonStats2, pokemonStats3);
 
 		tableModel.setPokemonStats(statsCollection);
 
+		assertEquals(columns, tableModel.getColumnCount());
 		Object[][] grid = { row1, row2, row3 };
 		for (int r = 0; r < 3; ++r) {
-			for (int c = 0; c < TABLE_COLUMNS; ++c) {
+			for (int c = 0; c < columns; ++c) {
 				assertEquals(grid[r][c], tableModel.getValueAt(r, c));
 			}
 		}
 	}
 
+	@Test
+	public void testColumnWidthIsDecidedByRowBuilder() {
+		int columns = 4;
+		PokemonStats pokemonStats1 = mock(PokemonStats.class);
+		PokemonStats pokemonStats2 = mock(PokemonStats.class);
+		Object[] row1 = { 9, 6, 3, 2 };
+		Object[] row2 = { 8, 7, 4, 1 };
+		when(rowBuilder.buildRow(pokemonStats1)).thenReturn(row1);
+		when(rowBuilder.buildRow(pokemonStats2)).thenReturn(row2);
+		when(rowBuilder.getColumnCount()).thenReturn(columns);
+		List<PokemonStats> statsCollection = Arrays.asList(pokemonStats1,
+				pokemonStats2);
+
+		tableModel.setPokemonStats(statsCollection);
+
+		assertEquals(columns, tableModel.getColumnCount());
+		Object[][] grid = { row1, row2 };
+		for (int r = 0; r < 2; ++r) {
+			for (int c = 0; c < columns; ++c) {
+				assertEquals(grid[r][c], tableModel.getValueAt(r, c));
+			}
+		}
+	}
 }

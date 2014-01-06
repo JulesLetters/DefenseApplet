@@ -52,4 +52,8 @@ public class EVDistribution {
 		return spDef;
 	}
 
+	public Nature getNature() {
+		return null;
+	}
+
 }

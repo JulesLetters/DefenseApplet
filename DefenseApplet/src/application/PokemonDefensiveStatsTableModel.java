@@ -10,17 +10,12 @@ import javax.swing.table.TableModel;
 public class PokemonDefensiveStatsTableModel extends AbstractTableModel
 		implements TableModel {
 
-	private static final int COLUMN_COUNT = 3;
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3768891509074901217L;
 
-	String[] columnNames = { "EV:HP", "EV:Def", "EV:SpDef" };
-
 	private PokemonDefensiveStatsTableRowBuilder rowBuilder;
-
 	private Object[][] data = new Object[0][0];
 
 	public PokemonDefensiveStatsTableModel(
@@ -30,12 +25,12 @@ public class PokemonDefensiveStatsTableModel extends AbstractTableModel
 
 	@Override
 	public int getColumnCount() {
-		return COLUMN_COUNT;
+		return rowBuilder.getColumnCount();
 	}
 
 	@Override
 	public String getColumnName(int arg0) {
-		return columnNames[arg0];
+		return rowBuilder.getColumnName(arg0);
 	}
 
 	@Override
@@ -50,7 +45,7 @@ public class PokemonDefensiveStatsTableModel extends AbstractTableModel
 
 	public void setPokemonStats(Collection<PokemonStats> statsTableModel) {
 		int rowCount = statsTableModel.size();
-		data = new Object[rowCount][COLUMN_COUNT];
+		data = new Object[rowCount][getColumnCount()];
 		List<PokemonStats> myStatsTableModel = new ArrayList<>(statsTableModel);
 
 		for (int y = 0; y < rowCount; ++y) {
