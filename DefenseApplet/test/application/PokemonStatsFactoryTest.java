@@ -32,6 +32,8 @@ public class PokemonStatsFactoryTest {
 	public void testMakeStatsReturnsCorrectStats() {
 		Random rand = new Random();
 		EVDistribution evDistribution = mock(EVDistribution.class);
+		Nature nature = mock(Nature.class);
+		when(evDistribution.getNature()).thenReturn(nature);
 		int hpEVs = rand.nextInt(1000);
 		int defEVs = rand.nextInt(1000);
 		int spDefEVs = rand.nextInt(1000);
@@ -51,10 +53,11 @@ public class PokemonStatsFactoryTest {
 		int defStat = rand.nextInt(1000);
 		int spDefStat = rand.nextInt(1000);
 
-		when(hpCalculator.calculate(baseHP, hpEVs)).thenReturn(hpStat);
-		when(defCalculator.calculate(baseDef, defEVs)).thenReturn(defStat);
-		when(spDefCalculator.calculate(baseSpDef, spDefEVs)).thenReturn(
-				spDefStat);
+		when(hpCalculator.calculate(baseHP, hpEVs, nature)).thenReturn(hpStat);
+		when(defCalculator.calculate(baseDef, defEVs, nature)).thenReturn(
+				defStat);
+		when(spDefCalculator.calculate(baseSpDef, spDefEVs, nature))
+				.thenReturn(spDefStat);
 
 		PokemonStats pokemonStats = statsFactory.makeStats(evDistribution,
 				baseStats);

@@ -7,7 +7,7 @@ public class PokemonStatsFactory {
 	private IStatCalculator spDefCalculator;
 
 	public PokemonStatsFactory() {
-		this(new HPCalculator(), new StatCalculator(), new StatCalculator());
+		this(new HPCalculator(), new DefCalculator(), new SpDefCalculator());
 	}
 
 	protected PokemonStatsFactory(IStatCalculator hpCalculator,
@@ -20,11 +20,11 @@ public class PokemonStatsFactory {
 	public PokemonStats makeStats(EVDistribution evDistribution,
 			IBaseStats baseStats) {
 		int hp = hpCalculator.calculate(baseStats.getHP(),
-				evDistribution.getHP());
+				evDistribution.getHP(), evDistribution.getNature());
 		int def = defCalculator.calculate(baseStats.getDef(),
-				evDistribution.getDef());
+				evDistribution.getDef(), evDistribution.getNature());
 		int spDef = spDefCalculator.calculate(baseStats.getSpDef(),
-				evDistribution.getSpDef());
+				evDistribution.getSpDef(), evDistribution.getNature());
 
 		return new PokemonStats(hp, def, spDef, evDistribution);
 	}
