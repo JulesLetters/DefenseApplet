@@ -7,7 +7,7 @@ public class HarmCalculator implements IHarmCalculator {
 	private int incomingHarm;
 
 	public HarmCalculator() {
-		this(859806);
+		this(320844000);
 	}
 
 	public HarmCalculator(int incomingHarm) {
