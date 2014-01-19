@@ -1,16 +1,22 @@
 package application;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+
+import restrictions.RestrictionsMVPFactory;
 
 public class DistributionFinderApplet extends JApplet implements ActionListener {
 
@@ -32,16 +38,25 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 	private JTable table = new JTable(statsTableModel);
 	private JScrollPane scrollPane = new JScrollPane(table);
 
+	private final RestrictionsMVPFactory restrictionsMVP = new RestrictionsMVPFactory();
+
 	@Override
 	public void init() {
-		setLayout(new GridLayout(3, 1));
+		setLayout(new GridLayout(4, 1));
 
 		JPanel baseStatsPanel = new JPanel();
+		Border blackline = BorderFactory.createLineBorder(Color.black);
+		TitledBorder border = BorderFactory.createTitledBorder(blackline,
+				"Base Stats");
+		baseStatsPanel.setBorder(border);
+
 		baseStatsPanel.setLayout(new GridLayout(3, 1));
 		baseStatsPanel.add(hpStatPanel);
 		baseStatsPanel.add(defStatPanel);
 		baseStatsPanel.add(spDefStatPanel);
 		add(baseStatsPanel);
+
+		add(restrictionsMVP.getView());
 
 		calculateButton.addActionListener(this);
 		add(calculateButton);

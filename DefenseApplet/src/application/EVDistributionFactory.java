@@ -14,22 +14,13 @@ public class EVDistributionFactory implements IEVDistributionFactory {
 	@Override
 	public Set<EVDistribution> getInitialCollection() {
 		List<Nature> natures = new ArrayList<>();
-		natures.add(new Nature(Nature.Adjustment.NEUTRAL,
-				Nature.Adjustment.NEUTRAL));
-
-		natures.add(new Nature(Nature.Adjustment.INCREASE,
-				Nature.Adjustment.NEUTRAL));
-		natures.add(new Nature(Nature.Adjustment.DECREASE,
-				Nature.Adjustment.NEUTRAL));
-		natures.add(new Nature(Nature.Adjustment.INCREASE,
-				Nature.Adjustment.DECREASE));
-
-		natures.add(new Nature(Nature.Adjustment.NEUTRAL,
-				Nature.Adjustment.INCREASE));
-		natures.add(new Nature(Nature.Adjustment.NEUTRAL,
-				Nature.Adjustment.DECREASE));
-		natures.add(new Nature(Nature.Adjustment.DECREASE,
-				Nature.Adjustment.INCREASE));
+		natures.add(Nature.Possibility.NEUTRAL.getNature());
+		natures.add(Nature.Possibility.INC_DEF.getNature());
+		natures.add(Nature.Possibility.INC_SPDEF.getNature());
+		natures.add(Nature.Possibility.INC_DEF_DEC_SPDEF.getNature());
+		natures.add(Nature.Possibility.DEC_DEF.getNature());
+		natures.add(Nature.Possibility.DEC_SPDEF.getNature());
+		natures.add(Nature.Possibility.DEC_DEF_INC_SPDEF.getNature());
 
 		Set<EVDistribution> initialCollection = new HashSet<>();
 		for (Nature nature : natures) {

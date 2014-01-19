@@ -1,27 +1,6 @@
 package application;
 
 public class Nature {
-
-	private Adjustment defense;
-	private Adjustment specialDefense;
-
-	public enum Adjustment {
-		DECREASE, NEUTRAL, INCREASE
-	}
-
-	public Nature(Adjustment defense, Adjustment specialDefense) {
-		this.defense = defense;
-		this.specialDefense = specialDefense;
-	}
-
-	public Adjustment getDefAdjustment() {
-		return defense;
-	}
-
-	public Adjustment getSpDefAdjustment() {
-		return specialDefense;
-	}
-
 	@Override
 	public String toString() {
 		return prefix(defense) + "Def, " + prefix(specialDefense) + "SpDef";
@@ -35,6 +14,48 @@ public class Nature {
 			return "+";
 		}
 		return "=";
+	}
+
+	public enum Possibility {
+		//@formatter:off
+		NEUTRAL(new Nature(Nature.Adjustment.NEUTRAL, Nature.Adjustment.NEUTRAL)),
+		INC_DEF(new Nature(Nature.Adjustment.INCREASE, Nature.Adjustment.NEUTRAL)),
+		INC_SPDEF(new Nature(Nature.Adjustment.NEUTRAL, Nature.Adjustment.INCREASE)),
+		INC_DEF_DEC_SPDEF(new Nature(Nature.Adjustment.INCREASE, Nature.Adjustment.DECREASE)),
+		DEC_DEF(new Nature(Nature.Adjustment.DECREASE, Nature.Adjustment.NEUTRAL)),
+		DEC_SPDEF(new Nature(Nature.Adjustment.NEUTRAL, Nature.Adjustment.DECREASE)),
+		DEC_DEF_INC_SPDEF(new Nature(Nature.Adjustment.DECREASE, Nature.Adjustment.INCREASE));
+		//@formatter:on
+
+		private Nature nature;
+
+		private Possibility(Nature nature) {
+			this.nature = nature;
+		}
+
+		public Nature getNature() {
+			return nature;
+		}
+	}
+
+	private Adjustment defense;
+	private Adjustment specialDefense;
+
+	public enum Adjustment {
+		DECREASE, NEUTRAL, INCREASE
+	}
+
+	private Nature(Adjustment defense, Adjustment specialDefense) {
+		this.defense = defense;
+		this.specialDefense = specialDefense;
+	}
+
+	public Adjustment getDefAdjustment() {
+		return defense;
+	}
+
+	public Adjustment getSpDefAdjustment() {
+		return specialDefense;
 	}
 
 	@Override

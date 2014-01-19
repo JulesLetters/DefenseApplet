@@ -17,8 +17,7 @@ public class EVDistributionFactoryTest {
 	private static final int MAX_STAT_EVS = 252;
 	private static final int EV_STEP = 4;
 	private EVDistributionFactory evDistributionFactory;
-	private Nature neutralNature = new Nature(Nature.Adjustment.NEUTRAL,
-			Nature.Adjustment.NEUTRAL);
+	private Nature neutralNature = Nature.Possibility.NEUTRAL.getNature();
 
 	@Before
 	public void setUp() throws Exception {
@@ -67,22 +66,13 @@ public class EVDistributionFactoryTest {
 				.getInitialCollection();
 
 		List<Nature> natures = new ArrayList<>();
-		natures.add(new Nature(Nature.Adjustment.NEUTRAL,
-				Nature.Adjustment.NEUTRAL));
-
-		natures.add(new Nature(Nature.Adjustment.INCREASE,
-				Nature.Adjustment.NEUTRAL));
-		natures.add(new Nature(Nature.Adjustment.DECREASE,
-				Nature.Adjustment.NEUTRAL));
-		natures.add(new Nature(Nature.Adjustment.INCREASE,
-				Nature.Adjustment.DECREASE));
-
-		natures.add(new Nature(Nature.Adjustment.NEUTRAL,
-				Nature.Adjustment.INCREASE));
-		natures.add(new Nature(Nature.Adjustment.NEUTRAL,
-				Nature.Adjustment.DECREASE));
-		natures.add(new Nature(Nature.Adjustment.DECREASE,
-				Nature.Adjustment.INCREASE));
+		natures.add(neutralNature);
+		natures.add(Nature.Possibility.INC_DEF.getNature());
+		natures.add(Nature.Possibility.INC_SPDEF.getNature());
+		natures.add(Nature.Possibility.INC_DEF_DEC_SPDEF.getNature());
+		natures.add(Nature.Possibility.DEC_DEF.getNature());
+		natures.add(Nature.Possibility.DEC_SPDEF.getNature());
+		natures.add(Nature.Possibility.DEC_DEF_INC_SPDEF.getNature());
 
 		int counter = 0;
 		for (Nature nature : natures) {
