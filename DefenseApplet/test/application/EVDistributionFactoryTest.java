@@ -3,31 +3,42 @@ package application;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import restrictions.IRestrictionsModel;
 
 public class EVDistributionFactoryTest {
+
+	@Mock
+	private IRestrictionsModel restrictionsModel;
 
 	private static final int MAX_EVS = 510;
 	private static final int MAX_STAT_EVS = 252;
 	private static final int EV_STEP = 4;
-	private EVDistributionFactory evDistributionFactory;
 	private Nature neutralNature = Nature.Possibility.NEUTRAL.getNature();
+	private EVDistributionFactory evDistributionFactory;
 
 	@Before
 	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
 		evDistributionFactory = new EVDistributionFactory();
+		when(restrictionsModel.getAllowedNatures()).thenReturn(
+				Collections.singleton(neutralNature));
 	}
 
 	@Test
 	public void testInitialCollectionContainsAllOnlyHPDistributions() {
 		Set<EVDistribution> initialCollection = evDistributionFactory
-				.getInitialCollection();
+				.getInitialCollection(restrictionsModel);
 
 		for (int h = 0; h <= MAX_STAT_EVS; h += EV_STEP) {
 			assertTrue(initialCollection.contains(new EVDistribution(h, 0, 0,
@@ -39,7 +50,7 @@ public class EVDistributionFactoryTest {
 	@Test
 	public void testInitialCollectionContainsAllOnlyDefDistributions() {
 		Set<EVDistribution> initialCollection = evDistributionFactory
-				.getInitialCollection();
+				.getInitialCollection(restrictionsModel);
 
 		for (int d = 0; d <= MAX_STAT_EVS; d += EV_STEP) {
 			assertTrue(initialCollection.contains(new EVDistribution(0, d, 0,
@@ -51,7 +62,7 @@ public class EVDistributionFactoryTest {
 	@Test
 	public void testInitialCollectionContainsAllOnlySpDefDistributions() {
 		Set<EVDistribution> initialCollection = evDistributionFactory
-				.getInitialCollection();
+				.getInitialCollection(restrictionsModel);
 
 		for (int s = 0; s <= MAX_STAT_EVS; s += EV_STEP) {
 			assertTrue(initialCollection.contains(new EVDistribution(0, 0, s,
@@ -61,22 +72,19 @@ public class EVDistributionFactoryTest {
 	}
 
 	@Test
-	public void testGetInitialCollectionGeneratesAllPossibleDistributions() {
-		Set<EVDistribution> initialCollection = evDistributionFactory
-				.getInitialCollection();
-
-		List<Nature> natures = new ArrayList<>();
+	public void testGenerateOnlyDistributionsWithNaturesFromRestrictions() {
+		Set<Nature> natures = new HashSet<>();
 		natures.add(neutralNature);
 		natures.add(Nature.Possibility.INC_DEF.getNature());
 		natures.add(Nature.Possibility.INC_SPDEF.getNature());
-		natures.add(Nature.Possibility.INC_DEF_DEC_SPDEF.getNature());
-		natures.add(Nature.Possibility.DEC_DEF.getNature());
-		natures.add(Nature.Possibility.DEC_SPDEF.getNature());
-		natures.add(Nature.Possibility.DEC_DEF_INC_SPDEF.getNature());
+
+		when(restrictionsModel.getAllowedNatures()).thenReturn(natures);
+
+		Set<EVDistribution> initialCollection = evDistributionFactory
+				.getInitialCollection(restrictionsModel);
 
 		int counter = 0;
 		for (Nature nature : natures) {
-
 			for (int h = 0; h <= MAX_STAT_EVS; h += EV_STEP) {
 				for (int d = 0; d <= MAX_STAT_EVS; d += EV_STEP) {
 					for (int s = 0; s <= MAX_STAT_EVS; s += EV_STEP) {
@@ -96,5 +104,4 @@ public class EVDistributionFactoryTest {
 		}
 		assertEquals(counter, initialCollection.size());
 	}
-
 }

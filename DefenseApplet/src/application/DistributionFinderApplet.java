@@ -71,7 +71,8 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 	public void actionPerformed(ActionEvent arg0) {
 		IBaseStats baseStats = new BaseStats(hpStatPanel.getStat(),
 				defStatPanel.getStat(), spDefStatPanel.getStat());
-		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats);
+		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats,
+				restrictionsMVP.getModel());
 
 		statsTableModel.setPokemonStats(calculate);
 

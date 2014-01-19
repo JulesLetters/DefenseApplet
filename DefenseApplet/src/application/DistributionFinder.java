@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import restrictions.IRestrictionsModel;
+
 public class DistributionFinder implements IDistributionFinder {
 
 	private IEVDistributionFactory evDistributionFactory;
@@ -24,9 +26,10 @@ public class DistributionFinder implements IDistributionFinder {
 	}
 
 	@Override
-	public Set<PokemonStats> calculate(IBaseStats baseStats) {
+	public Set<PokemonStats> calculate(IBaseStats baseStats,
+			IRestrictionsModel restrictionsModel) {
 		Set<EVDistribution> evDistributions = evDistributionFactory
-				.getInitialCollection();
+				.getInitialCollection(restrictionsModel);
 		Collection<PokemonStats> pokemonStats = pokemonStatsCollectionFactory
 				.makeStatsCollection(evDistributions, baseStats);
 		Collection<PokemonStats> filteredPokemonStats = harmAlgFilter

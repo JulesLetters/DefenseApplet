@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import restrictions.IRestrictionsModel;
+
 public class DistributionFinderTest {
 
 	@Mock
@@ -26,6 +28,8 @@ public class DistributionFinderTest {
 	private IBaseStats baseStats;
 	@Mock
 	private IHarmAlgorithmFilter harmAlgFilter;
+	@Mock
+	private IRestrictionsModel restrictionsModel;
 
 	private DistributionFinder distributionFinder;
 
@@ -38,18 +42,18 @@ public class DistributionFinderTest {
 
 	@Test
 	public void testDistributionFinderGetsInitialDistributionFromFactory() {
-		distributionFinder.calculate(baseStats);
+		distributionFinder.calculate(baseStats, restrictionsModel);
 
-		verify(evDistributionFactory).getInitialCollection();
+		verify(evDistributionFactory).getInitialCollection(restrictionsModel);
 	}
 
 	@Test
 	public void testDistributionFinderGivesInitialCollectionToStatAlgorithm() {
 		Set<EVDistribution> initialCollection = new HashSet<>();
-		when(evDistributionFactory.getInitialCollection()).thenReturn(
-				initialCollection);
+		when(evDistributionFactory.getInitialCollection(restrictionsModel))
+				.thenReturn(initialCollection);
 
-		distributionFinder.calculate(baseStats);
+		distributionFinder.calculate(baseStats, restrictionsModel);
 
 		verify(pokemonStatsCollectionFactory).makeStatsCollection(
 				initialCollection, baseStats);
@@ -58,8 +62,8 @@ public class DistributionFinderTest {
 	@Test
 	public void testDistributionReturnsResultsWhenCalculateCalled() {
 		Set<EVDistribution> initialCollection = new HashSet<>();
-		when(evDistributionFactory.getInitialCollection()).thenReturn(
-				initialCollection);
+		when(evDistributionFactory.getInitialCollection(restrictionsModel))
+				.thenReturn(initialCollection);
 		Collection<PokemonStats> pokemonStatsCollection = new HashSet<>();
 		pokemonStatsCollection.add(mock(PokemonStats.class));
 		when(
@@ -69,7 +73,8 @@ public class DistributionFinderTest {
 		when(harmAlgFilter.filter(pokemonStatsCollection)).thenReturn(
 				pokemonStatsCollection);
 
-		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
+		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats,
+				restrictionsModel);
 
 		assertEquals(pokemonStatsCollection, actualSet);
 	}
@@ -77,8 +82,8 @@ public class DistributionFinderTest {
 	@Test
 	public void testDistributionReturnsNoDuplicatePokemonStats() {
 		Set<EVDistribution> initialCollection = new HashSet<>();
-		when(evDistributionFactory.getInitialCollection()).thenReturn(
-				initialCollection);
+		when(evDistributionFactory.getInitialCollection(restrictionsModel))
+				.thenReturn(initialCollection);
 		PokemonStats pokemonStats = mock(PokemonStats.class);
 		Collection<PokemonStats> pokemonStatsCollection = Arrays.asList(
 				pokemonStats, pokemonStats);
@@ -90,7 +95,8 @@ public class DistributionFinderTest {
 		when(harmAlgFilter.filter(pokemonStatsCollection)).thenReturn(
 				pokemonStatsCollection);
 
-		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
+		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats,
+				restrictionsModel);
 
 		Set<PokemonStats> expectedSet = Collections.singleton(pokemonStats);
 		assertEquals(expectedSet, actualSet);
@@ -99,8 +105,8 @@ public class DistributionFinderTest {
 	@Test
 	public void testDistributionReturnsFilteredSetOfPokemonStats() {
 		Set<EVDistribution> evDistributions = new HashSet<>();
-		when(evDistributionFactory.getInitialCollection()).thenReturn(
-				evDistributions);
+		when(evDistributionFactory.getInitialCollection(restrictionsModel))
+				.thenReturn(evDistributions);
 		PokemonStats pokemonStats = mock(PokemonStats.class);
 		Collection<PokemonStats> pokemonStatsCollection = Arrays.asList(
 				pokemonStats, pokemonStats);
@@ -114,7 +120,8 @@ public class DistributionFinderTest {
 		when(harmAlgFilter.filter(pokemonStatsCollection)).thenReturn(
 				filteredStatsCollection);
 
-		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats);
+		Set<PokemonStats> actualSet = distributionFinder.calculate(baseStats,
+				restrictionsModel);
 
 		assertEquals(filteredStatsCollection, actualSet);
 
