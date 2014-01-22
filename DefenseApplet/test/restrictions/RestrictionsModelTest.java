@@ -12,7 +12,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import restrictions.RestrictionsModel;
 import application.Nature;
 
 public class RestrictionsModelTest {
@@ -108,5 +107,4 @@ public class RestrictionsModelTest {
 		Set<Nature> allowedNatures2 = restrictionsModel.getAllowedNatures();
 		assertNotSame(allowedNatures1, allowedNatures2);
 	}
-
 }

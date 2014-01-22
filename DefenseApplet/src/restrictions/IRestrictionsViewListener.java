@@ -8,4 +8,8 @@ public interface IRestrictionsViewListener {
 
 	void natureRemoved(Nature clicked);
 
+	void maxEVsChanged(int value);
+
+	void minEVsChanged(int value);
+
 }

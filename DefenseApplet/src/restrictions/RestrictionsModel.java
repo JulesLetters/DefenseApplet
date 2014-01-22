@@ -9,8 +9,9 @@ import application.Nature;
 
 public class RestrictionsModel implements IRestrictionsModel {
 
-	private Set<Nature> allowedNatures = Collections
-			.synchronizedSet(new HashSet<Nature>());
+	private Set<Nature> allowedNatures = Collections.synchronizedSet(new HashSet<Nature>());
+	private int maxEVs;
+	private int minEVs;
 
 	@Override
 	public Set<Nature> getAllowedNatures() {
@@ -32,6 +33,26 @@ public class RestrictionsModel implements IRestrictionsModel {
 	@Override
 	public void setAllowedNatures(Collection<Nature> natures) {
 		allowedNatures = Collections.synchronizedSet(new HashSet<>(natures));
+	}
+
+	@Override
+	public void setMaxEVs(int value) {
+		this.maxEVs = value;
+	}
+
+	@Override
+	public void setMinEVs(int value) {
+		this.minEVs = value;
+	}
+
+	@Override
+	public int getMaxEVs() {
+		return maxEVs;
+	}
+
+	@Override
+	public int getMinEVs() {
+		return minEVs;
 	}
 
 }

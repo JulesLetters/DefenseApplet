@@ -15,10 +15,6 @@ import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import restrictions.IRestrictionsModel;
-import restrictions.IRestrictionsViewListener;
-import restrictions.RestrictionsPanel;
-import restrictions.RestrictionsPresenter;
 import application.Nature;
 
 public class RestrictionsPresenterTest {
@@ -29,12 +25,9 @@ public class RestrictionsPresenterTest {
 	private IRestrictionsModel model;
 	private IRestrictionsViewListener viewListener;
 
-	private final List<Nature> initialSelectedNatures = Arrays.asList(
-			Nature.Possibility.NEUTRAL.getNature(),
-			Nature.Possibility.INC_DEF.getNature(),
-			Nature.Possibility.INC_SPDEF.getNature(),
-			Nature.Possibility.DEC_DEF.getNature(),
-			Nature.Possibility.DEC_SPDEF.getNature());
+	private final List<Nature> initialSelectedNatures = Arrays.asList(Nature.Possibility.NEUTRAL.getNature(),
+			Nature.Possibility.INC_DEF.getNature(), Nature.Possibility.INC_SPDEF.getNature(),
+			Nature.Possibility.DEC_DEF.getNature(), Nature.Possibility.DEC_SPDEF.getNature());
 
 	private RestrictionsPresenter distributionRestrictionsPresenter;
 
@@ -43,8 +36,7 @@ public class RestrictionsPresenterTest {
 		MockitoAnnotations.initMocks(this);
 		ArgumentCaptor<IRestrictionsViewListener> viewListenerCaptor = ArgumentCaptor
 				.forClass(IRestrictionsViewListener.class);
-		distributionRestrictionsPresenter = new RestrictionsPresenter(
-				view, model);
+		distributionRestrictionsPresenter = new RestrictionsPresenter(view, model);
 
 		verify(view).setViewListener(viewListenerCaptor.capture());
 		viewListener = viewListenerCaptor.getValue();
@@ -76,8 +68,43 @@ public class RestrictionsPresenterTest {
 	@Test
 	public void testViewReceivesInitialCollectionAfterListenerSet() {
 		InOrder inOrder = inOrder(view);
-		inOrder.verify(view).setViewListener(
-				any(IRestrictionsViewListener.class));
+		inOrder.verify(view).setViewListener(any(IRestrictionsViewListener.class));
 		inOrder.verify(view).setSelectedNatures(initialSelectedNatures);
+	}
+
+	@Test
+	public void testModelUpdatedWhenMaxEVsChange() {
+		int value = 1;
+
+		viewListener.maxEVsChanged(value);
+
+		verify(model).setMaxEVs(value);
+	}
+
+	@Test
+	public void testModelReallyUpdatedWhenMaxEVsChange() {
+		int value = 2;
+
+		viewListener.maxEVsChanged(value);
+
+		verify(model).setMaxEVs(value);
+	}
+
+	@Test
+	public void testModelUpdatedWhenMinEVsChange() {
+		int value = 1;
+
+		viewListener.minEVsChanged(value);
+
+		verify(model).setMinEVs(value);
+	}
+
+	@Test
+	public void testModelReallyUpdatedWhenMinEVsChange() {
+		int value = 2;
+
+		viewListener.minEVsChanged(value);
+
+		verify(model).setMinEVs(value);
 	}
 }

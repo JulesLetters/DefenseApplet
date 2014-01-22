@@ -18,11 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import application.ISpinnerListener;
+import application.LabelledSpinner;
 import application.Nature;
 import application.Nature.Possibility;
 
-public class RestrictionsPanel extends JPanel implements ActionListener,
-		ItemListener {
+public class RestrictionsPanel extends JPanel implements ActionListener, ItemListener, ISpinnerListener {
 
 	/**
 	 * 
@@ -36,12 +37,24 @@ public class RestrictionsPanel extends JPanel implements ActionListener,
 
 	private final Map<JCheckBox, Nature> checkboxToNatureMap = new LinkedHashMap<>();
 
+	private LabelledSpinner maxEVSpinner;
+	private LabelledSpinner minEVSpinner;
+
 	public RestrictionsPanel() {
-		setLayout(new GridLayout(1, 2));
+		setLayout(new GridLayout(1, 3));
 		Border blackline = BorderFactory.createLineBorder(Color.black);
-		TitledBorder border = BorderFactory.createTitledBorder(blackline,
-				"Restrictions");
+		TitledBorder border = BorderFactory.createTitledBorder(blackline, "Restrictions");
 		setBorder(border);
+
+		JPanel limitsPanel = new JPanel();
+		setLayout(new GridLayout(2, 1));
+		maxEVSpinner = new LabelledSpinner("Max Sum:", 508, 0, 508, 4);
+		minEVSpinner = new LabelledSpinner("Min Sum:", 0, 0, 508, 4);
+		maxEVSpinner.setListener(this);
+		minEVSpinner.setListener(this);
+		limitsPanel.add(maxEVSpinner);
+		limitsPanel.add(minEVSpinner);
+		add(limitsPanel);
 
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(2, 1));
@@ -95,6 +108,15 @@ public class RestrictionsPanel extends JPanel implements ActionListener,
 			viewListener.natureAdded(changedNature);
 		} else if (arg0.getStateChange() == ItemEvent.DESELECTED) {
 			viewListener.natureRemoved(changedNature);
+		}
+	}
+
+	@Override
+	public void valueChanged(LabelledSpinner source, int value) {
+		if (source == maxEVSpinner) {
+			viewListener.maxEVsChanged(value);
+		} else if (source == minEVSpinner) {
+			viewListener.minEVsChanged(value);
 		}
 	}
 

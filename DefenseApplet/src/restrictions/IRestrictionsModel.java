@@ -14,4 +14,12 @@ public interface IRestrictionsModel {
 	void removeNature(Nature nature);
 
 	void setAllowedNatures(Collection<Nature> initialSelectedNatures);
+
+	void setMaxEVs(int value);
+
+	void setMinEVs(int value);
+
+	int getMaxEVs();
+
+	int getMinEVs();
 }

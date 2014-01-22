@@ -33,8 +33,7 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 	private JButton calculateButton = new JButton("Calculate EVs");
 
 	private PokemonDefensiveStatsTableRowBuilder rowBuilder = new PokemonDefensiveStatsTableRowBuilder();
-	private PokemonDefensiveStatsTableModel statsTableModel = new PokemonDefensiveStatsTableModel(
-			rowBuilder);
+	private PokemonDefensiveStatsTableModel statsTableModel = new PokemonDefensiveStatsTableModel(rowBuilder);
 	private JTable table = new JTable(statsTableModel);
 	private JScrollPane scrollPane = new JScrollPane(table);
 
@@ -46,8 +45,7 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 
 		JPanel baseStatsPanel = new JPanel();
 		Border blackline = BorderFactory.createLineBorder(Color.black);
-		TitledBorder border = BorderFactory.createTitledBorder(blackline,
-				"Base Stats");
+		TitledBorder border = BorderFactory.createTitledBorder(blackline, "Base Stats");
 		baseStatsPanel.setBorder(border);
 
 		baseStatsPanel.setLayout(new GridLayout(3, 1));
@@ -62,17 +60,14 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 		add(calculateButton);
 
 		table.setFillsViewportHeight(true);
-		scrollPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		add(scrollPane);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		IBaseStats baseStats = new BaseStats(hpStatPanel.getStat(),
-				defStatPanel.getStat(), spDefStatPanel.getStat());
-		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats,
-				restrictionsMVP.getModel());
+		IBaseStats baseStats = new BaseStats(hpStatPanel.getStat(), defStatPanel.getStat(), spDefStatPanel.getStat());
+		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats, restrictionsMVP.getModel());
 
 		statsTableModel.setPokemonStats(calculate);
 

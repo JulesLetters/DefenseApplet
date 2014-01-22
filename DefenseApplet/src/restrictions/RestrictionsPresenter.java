@@ -7,16 +7,10 @@ import application.Nature;
 
 public class RestrictionsPresenter {
 
-	private final List<Nature> initialSelectedNatures = Arrays.asList(
-			Nature.Possibility.NEUTRAL.getNature(),
-			Nature.Possibility.INC_DEF.getNature(),
-			Nature.Possibility.INC_SPDEF.getNature(),
-			Nature.Possibility.DEC_DEF.getNature(),
-			Nature.Possibility.DEC_SPDEF.getNature());
+	private final List<Nature> initialSelectedNatures = Arrays.asList(Nature.Possibility.NEUTRAL.getNature(),
+			Nature.Possibility.INC_DEF.getNature(), Nature.Possibility.INC_SPDEF.getNature());
 
-	public RestrictionsPresenter(
-			RestrictionsPanel view,
-			final IRestrictionsModel model) {
+	public RestrictionsPresenter(RestrictionsPanel view, final IRestrictionsModel model) {
 
 		view.setViewListener(new IRestrictionsViewListener() {
 
@@ -28,6 +22,16 @@ public class RestrictionsPresenter {
 			@Override
 			public void natureRemoved(Nature nature) {
 				model.removeNature(nature);
+			}
+
+			@Override
+			public void maxEVsChanged(int value) {
+				model.setMaxEVs(value);
+			}
+
+			@Override
+			public void minEVsChanged(int value) {
+				model.setMinEVs(value);
 			}
 
 		});
