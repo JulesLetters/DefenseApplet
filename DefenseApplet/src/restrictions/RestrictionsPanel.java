@@ -49,7 +49,7 @@ public class RestrictionsPanel extends JPanel implements ActionListener, ItemLis
 		JPanel limitsPanel = new JPanel();
 		setLayout(new GridLayout(2, 1));
 		maxEVSpinner = new LabelledSpinner("Max Sum:", 508, 0, 508, 4);
-		minEVSpinner = new LabelledSpinner("Min Sum:", 0, 0, 508, 4);
+		minEVSpinner = new LabelledSpinner("Min Sum:", 508, 0, 508, 4);
 		maxEVSpinner.setListener(this);
 		minEVSpinner.setListener(this);
 		limitsPanel.add(maxEVSpinner);

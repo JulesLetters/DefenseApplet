@@ -10,8 +10,8 @@ import application.Nature;
 public class RestrictionsModel implements IRestrictionsModel {
 
 	private Set<Nature> allowedNatures = Collections.synchronizedSet(new HashSet<Nature>());
-	private int maxEVs;
-	private int minEVs;
+	private int maxEVs = 508;
+	private int minEVs = 508;
 
 	@Override
 	public Set<Nature> getAllowedNatures() {

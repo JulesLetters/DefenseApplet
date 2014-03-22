@@ -107,4 +107,15 @@ public class RestrictionsModelTest {
 		Set<Nature> allowedNatures2 = restrictionsModel.getAllowedNatures();
 		assertNotSame(allowedNatures1, allowedNatures2);
 	}
+
+	@Test
+	public void testMaxEVsDefaultsTo508() {
+		assertEquals(508, restrictionsModel.getMaxEVs());
+	}
+
+	@Test
+	public void testMinEVsDefaultsTo508() {
+		assertEquals(508, restrictionsModel.getMinEVs());
+	}
+
 }
