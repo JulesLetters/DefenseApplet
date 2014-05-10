@@ -54,7 +54,6 @@ public class RestrictionsPanel extends JPanel implements ActionListener, ItemLis
 		minEVSpinner.setListener(this);
 		limitsPanel.add(maxEVSpinner);
 		limitsPanel.add(minEVSpinner);
-		add(limitsPanel);
 
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new GridLayout(2, 1));
@@ -73,6 +72,7 @@ public class RestrictionsPanel extends JPanel implements ActionListener, ItemLis
 			natureCheckboxes.add(checkbox);
 		}
 
+		add(limitsPanel);
 		add(buttons);
 		add(natureCheckboxes);
 	}

@@ -26,17 +26,15 @@ public class RestrictionsPresenterTest {
 	private IRestrictionsViewListener viewListener;
 
 	private final List<Nature> initialSelectedNatures = Arrays.asList(Nature.Possibility.NEUTRAL.getNature(),
-			Nature.Possibility.INC_DEF.getNature(), Nature.Possibility.INC_SPDEF.getNature(),
-			Nature.Possibility.DEC_DEF.getNature(), Nature.Possibility.DEC_SPDEF.getNature());
-
-	private RestrictionsPresenter distributionRestrictionsPresenter;
+			Nature.Possibility.INC_DEF.getNature(), Nature.Possibility.INC_SPDEF.getNature());
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		ArgumentCaptor<IRestrictionsViewListener> viewListenerCaptor = ArgumentCaptor
 				.forClass(IRestrictionsViewListener.class);
-		distributionRestrictionsPresenter = new RestrictionsPresenter(view, model);
+		@SuppressWarnings("unused")
+		RestrictionsPresenter distributionRestrictionsPresenter = new RestrictionsPresenter(view, model);
 
 		verify(view).setViewListener(viewListenerCaptor.capture());
 		viewListener = viewListenerCaptor.getValue();
