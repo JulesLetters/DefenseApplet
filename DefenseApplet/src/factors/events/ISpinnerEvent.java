@@ -1,4 +1,4 @@
-package factors;
+package factors.events;
 
 public interface ISpinnerEvent {
 

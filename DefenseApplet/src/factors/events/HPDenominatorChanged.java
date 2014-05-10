@@ -1,18 +1,17 @@
 package factors.events;
 
-import factors.ISpinnerEvent;
 
 public class HPDenominatorChanged implements ISpinnerEvent {
 
-	private int number;
+	private int hpDenominator;
 
-	public HPDenominatorChanged(int number) {
-		this.number = number;
+	public HPDenominatorChanged(int hpDenominator) {
+		this.hpDenominator = hpDenominator;
 	}
 
 	@Override
 	public int getNumber() {
-		return number;
+		return hpDenominator;
 	}
 
 }
