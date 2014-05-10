@@ -11,7 +11,7 @@ public class FactorsMVPFactory {
 	public FactorsMVPFactory() {
 		this.view = new FactorsPanel(eventBus);
 		this.model = new FactorsModel();
-		eventBus.register(new FactorsPresenter(view, model));
+		eventBus.register(new FactorsPresenter(model));
 	}
 
 	public FactorsPanel getView() {

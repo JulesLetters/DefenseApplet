@@ -21,8 +21,6 @@ import factors.events.SpDefNumeratorChanged;
 public class FactorsPresenterTest {
 
 	@Mock
-	private FactorsPanel view;
-	@Mock
 	private IFactorsModel model;
 
 	private Random random = new Random();
@@ -31,7 +29,7 @@ public class FactorsPresenterTest {
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		FactorsPresenter factorsPresenter = new FactorsPresenter(view, model);
+		FactorsPresenter factorsPresenter = new FactorsPresenter(model);
 		eventBus = new EventBus();
 		eventBus.register(factorsPresenter);
 	}

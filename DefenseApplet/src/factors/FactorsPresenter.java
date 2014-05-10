@@ -13,7 +13,7 @@ public class FactorsPresenter {
 
 	private IFactorsModel model;
 
-	public FactorsPresenter(FactorsPanel view, IFactorsModel model) {
+	public FactorsPresenter(IFactorsModel model) {
 		this.model = model;
 	}
 
