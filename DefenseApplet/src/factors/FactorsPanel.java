@@ -39,12 +39,12 @@ public class FactorsPanel extends JPanel implements ISpinnerListener {
 		TitledBorder border = BorderFactory.createTitledBorder(blackline, "Factors");
 		setBorder(border);
 
-		hpNumerator = new LabelledSpinner("HP:", 1, 0, 200, 1);
-		hpDenominator = new LabelledSpinner("/", 1, 1, 200, 1);
-		defNumerator = new LabelledSpinner("Def:", 1, 0, 200, 1);
-		defDenominator = new LabelledSpinner("/", 1, 1, 200, 1);
-		spDefNumerator = new LabelledSpinner("SpDef:", 1, 0, 200, 1);
-		spDefDenominator = new LabelledSpinner("/", 1, 1, 200, 1);
+		hpNumerator = new LabelledSpinner("HP:", 1, 1, 200, 1);
+		hpDenominator = new LabelledSpinner("/", 1, 0, 200, 1);
+		defNumerator = new LabelledSpinner("Def:", 1, 1, 200, 1);
+		defDenominator = new LabelledSpinner("/", 1, 0, 200, 1);
+		spDefNumerator = new LabelledSpinner("SpDef:", 1, 1, 200, 1);
+		spDefDenominator = new LabelledSpinner("/", 1, 0, 200, 1);
 
 		hpNumerator.setListener(this);
 		hpDenominator.setListener(this);
