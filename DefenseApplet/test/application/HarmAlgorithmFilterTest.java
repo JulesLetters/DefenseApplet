@@ -17,10 +17,14 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import factors.IFactorsModel;
+
 public class HarmAlgorithmFilterTest {
 
 	@Mock
 	private IHarmCalculator harmCalculator;
+	@Mock
+	private IFactorsModel factorsModel;
 
 	private HarmAlgorithmFilter harmAlgorithmFilter;
 
@@ -32,18 +36,15 @@ public class HarmAlgorithmFilterTest {
 
 	@Test
 	public void testFilterReturnsEmptyCollectionIfGivenNoPokemonStats() {
-		assertEquals(0, harmAlgorithmFilter.filter(new HashSet<PokemonStats>())
-				.size());
+		assertEquals(0, harmAlgorithmFilter.filter(new HashSet<PokemonStats>(), factorsModel).size());
 	}
 
 	@Test
 	public void testFilterReturnsOnlyElementIfOneGiven() {
 		PokemonStats pokemonStats = mock(PokemonStats.class);
-		Set<PokemonStats> pokemonStatsCollection = Collections
-				.singleton(pokemonStats);
+		Set<PokemonStats> pokemonStatsCollection = Collections.singleton(pokemonStats);
 
-		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter
-				.filter(pokemonStatsCollection);
+		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);
 
 		assertEquals(1, filteredCollection.size());
 		assertTrue(filteredCollection.contains(pokemonStats));
@@ -53,13 +54,11 @@ public class HarmAlgorithmFilterTest {
 	public void testFilterReturnsOnlyBestOfTwoElements() {
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
-		when(harmCalculator.calculate(pokemonStats1)).thenReturn(1);
-		when(harmCalculator.calculate(pokemonStats2)).thenReturn(2);
-		List<PokemonStats> pokemonStatsCollection = Arrays.asList(
-				pokemonStats1, pokemonStats2);
+		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(1);
+		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(2);
+		List<PokemonStats> pokemonStatsCollection = Arrays.asList(pokemonStats1, pokemonStats2);
 
-		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter
-				.filter(pokemonStatsCollection);
+		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);
 
 		assertEquals(1, filteredCollection.size());
 		assertTrue(filteredCollection.contains(pokemonStats1));
@@ -69,13 +68,11 @@ public class HarmAlgorithmFilterTest {
 	public void testFilterReturnsTwoElementsIfBothElementsAreEqual() {
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
-		when(harmCalculator.calculate(pokemonStats1)).thenReturn(3);
-		when(harmCalculator.calculate(pokemonStats2)).thenReturn(3);
-		List<PokemonStats> pokemonStatsCollection = Arrays.asList(
-				pokemonStats1, pokemonStats2);
+		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(3);
+		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(3);
+		List<PokemonStats> pokemonStatsCollection = Arrays.asList(pokemonStats1, pokemonStats2);
 
-		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter
-				.filter(pokemonStatsCollection);
+		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);
 
 		assertEquals(2, filteredCollection.size());
 		assertTrue(filteredCollection.contains(pokemonStats1));
@@ -87,14 +84,12 @@ public class HarmAlgorithmFilterTest {
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
 		PokemonStats pokemonStats3 = mock(PokemonStats.class);
-		when(harmCalculator.calculate(pokemonStats1)).thenReturn(5);
-		when(harmCalculator.calculate(pokemonStats2)).thenReturn(5);
-		when(harmCalculator.calculate(pokemonStats3)).thenReturn(4);
-		List<PokemonStats> pokemonStatsCollection = Arrays.asList(
-				pokemonStats1, pokemonStats2, pokemonStats3);
+		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(5);
+		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(5);
+		when(harmCalculator.calculate(pokemonStats3, factorsModel)).thenReturn(4);
+		List<PokemonStats> pokemonStatsCollection = Arrays.asList(pokemonStats1, pokemonStats2, pokemonStats3);
 
-		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter
-				.filter(pokemonStatsCollection);
+		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);
 
 		assertEquals(1, filteredCollection.size());
 		assertTrue(filteredCollection.contains(pokemonStats3));

@@ -1,5 +1,7 @@
 package application;
 
+import factors.IFactorsModel;
+
 public class HarmCalculator implements IHarmCalculator {
 
 	private static final int PHYS_DAMAGE_BONUS = 2;
@@ -15,10 +17,16 @@ public class HarmCalculator implements IHarmCalculator {
 	}
 
 	@Override
-	public int calculate(PokemonStats pokemonStats) {
-		int result = (incomingHarm + PHYS_DAMAGE_BONUS) / pokemonStats.getDef()
-				+ (incomingHarm + SPEC_DAMAGE_BONUS) / pokemonStats.getSpDef();
+	public int calculate(PokemonStats pokemonStats, IFactorsModel factorsModel) {
+		int initialPhysicalDamage = (incomingHarm + PHYS_DAMAGE_BONUS) * factorsModel.getDefDenominator();
+		int initialSpecialDamage = (incomingHarm + SPEC_DAMAGE_BONUS) * factorsModel.getSpDefDenominator();
+
+		int physicalDamage = initialPhysicalDamage / pokemonStats.getDef() / factorsModel.getDefNumerator();
+		int specialDamage = initialSpecialDamage / pokemonStats.getSpDef() / factorsModel.getSpDefNumerator();
+
+		int result = physicalDamage + specialDamage;
+		result *= factorsModel.getHPDenominator();
+		result /= factorsModel.getHPNumerator();
 		return result / pokemonStats.getHP();
 	}
-
 }

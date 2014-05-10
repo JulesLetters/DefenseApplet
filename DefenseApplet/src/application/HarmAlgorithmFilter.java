@@ -3,6 +3,8 @@ package application;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import factors.IFactorsModel;
+
 public class HarmAlgorithmFilter implements IHarmAlgorithmFilter {
 
 	private IHarmCalculator harmCalculator;
@@ -16,14 +18,13 @@ public class HarmAlgorithmFilter implements IHarmAlgorithmFilter {
 	}
 
 	@Override
-	public Collection<PokemonStats> filter(
-			Collection<PokemonStats> pokemonStatsCollection) {
+	public Collection<PokemonStats> filter(Collection<PokemonStats> pokemonStatsCollection, IFactorsModel factorsModel) {
 
 		Collection<PokemonStats> result = new ArrayList<>();
 
 		Integer minHarm = Integer.MAX_VALUE;
 		for (PokemonStats pokemonStats : pokemonStatsCollection) {
-			int harm = harmCalculator.calculate(pokemonStats);
+			int harm = harmCalculator.calculate(pokemonStats, factorsModel);
 			if (harm < minHarm) {
 				result = new ArrayList<>();
 				minHarm = harm;

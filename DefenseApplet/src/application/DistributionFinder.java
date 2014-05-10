@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import restrictions.IRestrictionsModel;
+import factors.IFactorsModel;
 
 public class DistributionFinder implements IDistributionFinder {
 
@@ -13,27 +14,23 @@ public class DistributionFinder implements IDistributionFinder {
 	private IHarmAlgorithmFilter harmAlgFilter;
 
 	DistributionFinder() {
-		this(new EVDistributionFactory(), new PokemonStatsCollectionFactory(),
-				new HarmAlgorithmFilter());
+		this(new EVDistributionFactory(), new PokemonStatsCollectionFactory(), new HarmAlgorithmFilter());
 	}
 
 	protected DistributionFinder(IEVDistributionFactory evDistributionFactory,
-			IPokemonStatsCollectionFactory pokemonStatsCollectionFactory,
-			IHarmAlgorithmFilter harmAlgFilter) {
+			IPokemonStatsCollectionFactory pokemonStatsCollectionFactory, IHarmAlgorithmFilter harmAlgFilter) {
 		this.evDistributionFactory = evDistributionFactory;
 		this.pokemonStatsCollectionFactory = pokemonStatsCollectionFactory;
 		this.harmAlgFilter = harmAlgFilter;
 	}
 
 	@Override
-	public Set<PokemonStats> calculate(IBaseStats baseStats,
-			IRestrictionsModel restrictionsModel) {
-		Set<EVDistribution> evDistributions = evDistributionFactory
-				.getInitialCollection(restrictionsModel);
-		Collection<PokemonStats> pokemonStats = pokemonStatsCollectionFactory
-				.makeStatsCollection(evDistributions, baseStats);
-		Collection<PokemonStats> filteredPokemonStats = harmAlgFilter
-				.filter(pokemonStats);
+	public Set<PokemonStats> calculate(IBaseStats baseStats, IRestrictionsModel restrictionsModel,
+			IFactorsModel factorsModel) {
+		Set<EVDistribution> evDistributions = evDistributionFactory.getInitialCollection(restrictionsModel);
+		Collection<PokemonStats> pokemonStats = pokemonStatsCollectionFactory.makeStatsCollection(evDistributions,
+				baseStats);
+		Collection<PokemonStats> filteredPokemonStats = harmAlgFilter.filter(pokemonStats, factorsModel);
 		return new HashSet<PokemonStats>(filteredPokemonStats);
 	}
 }

@@ -17,6 +17,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import restrictions.RestrictionsMVPFactory;
+import factors.FactorsMVPFactory;
 
 public class DistributionFinderApplet extends JApplet implements ActionListener {
 
@@ -37,11 +38,14 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 	private JTable table = new JTable(statsTableModel);
 	private JScrollPane scrollPane = new JScrollPane(table);
 
+	private final FactorsMVPFactory factorsMVP = new FactorsMVPFactory();
+
 	private final RestrictionsMVPFactory restrictionsMVP = new RestrictionsMVPFactory();
 
 	@Override
 	public void init() {
-		setLayout(new GridLayout(4, 1));
+		setSize(640, 480);
+		setLayout(new GridLayout(3, 1));
 
 		JPanel baseStatsPanel = new JPanel();
 		Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -54,6 +58,7 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 		baseStatsPanel.add(spDefStatPanel);
 		add(baseStatsPanel);
 
+		add(factorsMVP.getView());
 		add(restrictionsMVP.getView());
 
 		calculateButton.addActionListener(this);
@@ -67,7 +72,8 @@ public class DistributionFinderApplet extends JApplet implements ActionListener 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		IBaseStats baseStats = new BaseStats(hpStatPanel.getStat(), defStatPanel.getStat(), spDefStatPanel.getStat());
-		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats, restrictionsMVP.getModel());
+		Set<PokemonStats> calculate = distributionFinder.calculate(baseStats, restrictionsMVP.getModel(),
+				factorsMVP.getModel());
 
 		statsTableModel.setPokemonStats(calculate);
 
