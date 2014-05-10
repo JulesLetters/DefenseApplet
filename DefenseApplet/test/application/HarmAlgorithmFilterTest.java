@@ -54,8 +54,8 @@ public class HarmAlgorithmFilterTest {
 	public void testFilterReturnsOnlyBestOfTwoElements() {
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
-		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(1);
-		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(2);
+		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(1L);
+		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(2L);
 		List<PokemonStats> pokemonStatsCollection = Arrays.asList(pokemonStats1, pokemonStats2);
 
 		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);
@@ -68,8 +68,8 @@ public class HarmAlgorithmFilterTest {
 	public void testFilterReturnsTwoElementsIfBothElementsAreEqual() {
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
-		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(3);
-		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(3);
+		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(3L);
+		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(3L);
 		List<PokemonStats> pokemonStatsCollection = Arrays.asList(pokemonStats1, pokemonStats2);
 
 		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);
@@ -84,9 +84,9 @@ public class HarmAlgorithmFilterTest {
 		PokemonStats pokemonStats1 = mock(PokemonStats.class);
 		PokemonStats pokemonStats2 = mock(PokemonStats.class);
 		PokemonStats pokemonStats3 = mock(PokemonStats.class);
-		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(5);
-		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(5);
-		when(harmCalculator.calculate(pokemonStats3, factorsModel)).thenReturn(4);
+		when(harmCalculator.calculate(pokemonStats1, factorsModel)).thenReturn(5L);
+		when(harmCalculator.calculate(pokemonStats2, factorsModel)).thenReturn(5L);
+		when(harmCalculator.calculate(pokemonStats3, factorsModel)).thenReturn(4L);
 		List<PokemonStats> pokemonStatsCollection = Arrays.asList(pokemonStats1, pokemonStats2, pokemonStats3);
 
 		Collection<PokemonStats> filteredCollection = harmAlgorithmFilter.filter(pokemonStatsCollection, factorsModel);

@@ -1,6 +1,7 @@
 package application;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -17,7 +18,7 @@ public class HarmCalculatorTest {
 	@Mock
 	private PokemonStats pokemonStats;
 
-	private final int INCOMING_HARM = 20000;
+	private final long INCOMING_HARM = 20000;
 	private final int PHYS_DAMAGE_BONUS = 2;
 	private final int SPEC_DAMAGE_BONUS = 2;
 	private HarmCalculator harmCalculator;
@@ -42,7 +43,7 @@ public class HarmCalculatorTest {
 
 	@Test
 	public void testBaselineHarm() {
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals(INCOMING_HARM + PHYS_DAMAGE_BONUS + INCOMING_HARM + SPEC_DAMAGE_BONUS, result);
 	}
@@ -51,7 +52,7 @@ public class HarmCalculatorTest {
 	public void testDefenseDividesPhysicalDamage() {
 		when(pokemonStats.getDef()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS) / 2 + INCOMING_HARM + SPEC_DAMAGE_BONUS, result);
 	}
@@ -60,7 +61,7 @@ public class HarmCalculatorTest {
 	public void testSpecialDefenseDividesSpecialDamage() {
 		when(pokemonStats.getSpDef()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals(INCOMING_HARM + PHYS_DAMAGE_BONUS + (INCOMING_HARM + SPEC_DAMAGE_BONUS) / 2, result);
 	}
@@ -69,7 +70,7 @@ public class HarmCalculatorTest {
 	public void testHPDividesAllDamage() {
 		when(pokemonStats.getHP()).thenReturn(3);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + INCOMING_HARM + SPEC_DAMAGE_BONUS) / 3, result);
 	}
@@ -79,7 +80,7 @@ public class HarmCalculatorTest {
 	public void testFactorHPNumeratorDividesAllDamage() {
 		when(factorsModel.getHPNumerator()).thenReturn(3);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + INCOMING_HARM + SPEC_DAMAGE_BONUS) / 3, result);
 	}
@@ -88,7 +89,7 @@ public class HarmCalculatorTest {
 	public void testFactorHPDenominatorMultiplesAllDamage() {
 		when(factorsModel.getHPDenominator()).thenReturn(3);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + INCOMING_HARM + SPEC_DAMAGE_BONUS) * 3, result);
 	}
@@ -98,7 +99,7 @@ public class HarmCalculatorTest {
 		when(factorsModel.getHPDenominator()).thenReturn(2);
 		when(factorsModel.getHPNumerator()).thenReturn(3);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + INCOMING_HARM + SPEC_DAMAGE_BONUS) * 2 / 3, result);
 	}
@@ -108,7 +109,7 @@ public class HarmCalculatorTest {
 		when(pokemonStats.getHP()).thenReturn(3);
 		when(factorsModel.getHPDenominator()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + INCOMING_HARM + SPEC_DAMAGE_BONUS) * 2 / 3, result);
 	}
@@ -118,7 +119,7 @@ public class HarmCalculatorTest {
 	public void testPhysicalDefenseMultipliedByDefenseFactorNumerator() {
 		when(factorsModel.getDefNumerator()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals(((INCOMING_HARM + PHYS_DAMAGE_BONUS) / 2 + INCOMING_HARM + SPEC_DAMAGE_BONUS), result);
 	}
@@ -127,7 +128,7 @@ public class HarmCalculatorTest {
 	public void testPhysicalDefenseDividedByDefenseFactorDenominator() {
 		when(factorsModel.getDefDenominator()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals(((INCOMING_HARM + PHYS_DAMAGE_BONUS) * 2 + INCOMING_HARM + SPEC_DAMAGE_BONUS), result);
 	}
@@ -137,7 +138,7 @@ public class HarmCalculatorTest {
 		when(factorsModel.getDefDenominator()).thenReturn(5);
 		when(factorsModel.getDefNumerator()).thenReturn(3);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals(((INCOMING_HARM + PHYS_DAMAGE_BONUS) * 5 / 3 + INCOMING_HARM + SPEC_DAMAGE_BONUS), result);
 	}
@@ -147,7 +148,7 @@ public class HarmCalculatorTest {
 		when(pokemonStats.getDef()).thenReturn(3);
 		when(factorsModel.getDefDenominator()).thenReturn(5);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals(((INCOMING_HARM + PHYS_DAMAGE_BONUS) * 5 / 3 + INCOMING_HARM + SPEC_DAMAGE_BONUS), result);
 	}
@@ -157,7 +158,7 @@ public class HarmCalculatorTest {
 	public void testSpecialDefenseMultipliedBySpecialDefenseFactorNumerator() {
 		when(factorsModel.getSpDefNumerator()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + (INCOMING_HARM + SPEC_DAMAGE_BONUS) / 2), result);
 	}
@@ -166,7 +167,7 @@ public class HarmCalculatorTest {
 	public void testSpecialDefenseDividedBySpecialDefenseFactorDenominator() {
 		when(factorsModel.getSpDefDenominator()).thenReturn(2);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + (INCOMING_HARM + SPEC_DAMAGE_BONUS) * 2), result);
 	}
@@ -176,7 +177,7 @@ public class HarmCalculatorTest {
 		when(factorsModel.getSpDefDenominator()).thenReturn(5);
 		when(factorsModel.getSpDefNumerator()).thenReturn(3);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + (INCOMING_HARM + SPEC_DAMAGE_BONUS) * 5 / 3), result);
 	}
@@ -186,8 +187,22 @@ public class HarmCalculatorTest {
 		when(pokemonStats.getSpDef()).thenReturn(3);
 		when(factorsModel.getSpDefDenominator()).thenReturn(5);
 
-		int result = harmCalculator.calculate(pokemonStats, factorsModel);
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
 
 		assertEquals((INCOMING_HARM + PHYS_DAMAGE_BONUS + (INCOMING_HARM + SPEC_DAMAGE_BONUS) * 5 / 3), result);
 	}
+
+	@Test
+	public void testHarmCalculatorDoesNotOverflowWithLargeNumbers() {
+		when(factorsModel.getHPDenominator()).thenReturn(1);
+		when(factorsModel.getDefDenominator()).thenReturn(11);
+		when(factorsModel.getSpDefDenominator()).thenReturn(11);
+		long incomingHarm = 320844000;
+		harmCalculator = new HarmCalculator(incomingHarm);
+
+		long result = harmCalculator.calculate(pokemonStats, factorsModel);
+
+		assertTrue(result > 0);
+	}
+
 }

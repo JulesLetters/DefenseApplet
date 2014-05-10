@@ -22,9 +22,9 @@ public class HarmAlgorithmFilter implements IHarmAlgorithmFilter {
 
 		Collection<PokemonStats> result = new ArrayList<>();
 
-		Integer minHarm = Integer.MAX_VALUE;
+		Long minHarm = Long.MAX_VALUE;
 		for (PokemonStats pokemonStats : pokemonStatsCollection) {
-			int harm = harmCalculator.calculate(pokemonStats, factorsModel);
+			long harm = harmCalculator.calculate(pokemonStats, factorsModel);
 			if (harm < minHarm) {
 				result = new ArrayList<>();
 				minHarm = harm;
