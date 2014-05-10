@@ -1,6 +1,8 @@
 package restrictions;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +26,6 @@ import application.Nature;
 import application.Nature.Possibility;
 
 public class RestrictionsPanel extends JPanel implements ActionListener, ItemListener, ISpinnerListener {
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 2875517493533937867L;
 
 	private IRestrictionsViewListener viewListener;
@@ -41,13 +39,13 @@ public class RestrictionsPanel extends JPanel implements ActionListener, ItemLis
 	private LabelledSpinner minEVSpinner;
 
 	public RestrictionsPanel() {
-		setLayout(new GridLayout(1, 3));
+		setLayout(new GridBagLayout());
 		Border blackline = BorderFactory.createLineBorder(Color.black);
 		TitledBorder border = BorderFactory.createTitledBorder(blackline, "Restrictions");
 		setBorder(border);
 
 		JPanel limitsPanel = new JPanel();
-		setLayout(new GridLayout(2, 1));
+		limitsPanel.setLayout(new GridLayout(2, 1));
 		maxEVSpinner = new LabelledSpinner("Max Sum:", 508, 0, 508, 4);
 		minEVSpinner = new LabelledSpinner("Min Sum:", 508, 0, 508, 4);
 		maxEVSpinner.setListener(this);
@@ -63,18 +61,50 @@ public class RestrictionsPanel extends JPanel implements ActionListener, ItemLis
 		buttons.add(noneButton);
 
 		JPanel natureCheckboxes = new JPanel();
-		natureCheckboxes.setLayout(new GridLayout(2, 5));
+		natureCheckboxes.setLayout(new GridBagLayout());
+
+		GridBagConstraints checkboxesConstraints = new GridBagConstraints();
+		checkboxesConstraints.weightx = .25;
+		checkboxesConstraints.weighty = .5;
+		checkboxesConstraints.gridx = 0;
+		checkboxesConstraints.gridy = 0;
 		for (Possibility possibility : Nature.Possibility.values()) {
 			Nature nature = possibility.getNature();
 			JCheckBox checkbox = new JCheckBox(nature.toString());
 			checkboxToNatureMap.put(checkbox, nature);
 			checkbox.addItemListener(this);
-			natureCheckboxes.add(checkbox);
+			natureCheckboxes.add(checkbox, checkboxesConstraints);
+
+			if (checkboxesConstraints.gridx == 3) {
+				checkboxesConstraints.gridx = 1;
+				checkboxesConstraints.gridy = 1;
+			} else {
+				checkboxesConstraints.gridx++;
+			}
 		}
 
-		add(limitsPanel);
-		add(buttons);
-		add(natureCheckboxes);
+		GridBagConstraints limitsConstraints = new GridBagConstraints();
+		limitsConstraints.gridx = 0;
+		limitsConstraints.gridy = 0;
+		limitsConstraints.weighty = .50;
+		add(limitsPanel, limitsConstraints);
+
+		GridBagConstraints buttonConstraints = new GridBagConstraints();
+		buttonConstraints.gridx = 0;
+		buttonConstraints.gridy = 1;
+		buttonConstraints.weightx = .20;
+		buttonConstraints.weighty = .50;
+		add(buttons, buttonConstraints);
+
+		GridBagConstraints natureConstraints = new GridBagConstraints();
+		natureConstraints.gridx = 1;
+		natureConstraints.gridy = 1;
+		natureConstraints.weightx = .80;
+		natureConstraints.weighty = .50;
+		natureConstraints.gridwidth = 2;
+		natureConstraints.fill = GridBagConstraints.BOTH;
+		natureConstraints.anchor = GridBagConstraints.LINE_START;
+		add(natureCheckboxes, natureConstraints);
 	}
 
 	public void setViewListener(IRestrictionsViewListener viewListener) {
